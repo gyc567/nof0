@@ -1,4 +1,4 @@
-# nof0
+# Monnaire AI Arena
 
 nof1.ai like frontend.
 

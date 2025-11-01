@@ -1,0 +1,60 @@
+# Vercel 部署时忽略的文件和目录
+
+# 环境变量文件（包含敏感信息）
+.env
+.env.local
+.env.production
+.env.*.local
+
+# 开发和测试文件
+*.test.*
+*.spec.*
+**/__tests__/**
+**/tests/**
+
+# 日志文件
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 临时文件
+.tmp/
+.temp/
+.cache/
+
+# 编辑器和 IDE 配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 操作系统文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 部署配置备份
+*.bak
+*.backup
+
+# 依赖目录（可选，Vercel 会自动安装）
+# node_modules/
+# .next/
+
+# 文档草稿
+*.draft.md
+*.wip.md
+
+# 本地快照数据
+snapshots/
+*.snapshot
+
+# 其他工具配置
+.eslintcache
+.stylelintcache
