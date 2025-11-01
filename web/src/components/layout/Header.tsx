@@ -8,7 +8,7 @@ export function Header() {
   const resolved = useTheme((s) => s.resolved);
   const setTheme = useTheme((s) => s.setTheme);
   // 固定 Twitter/X 关注账号
-  const TWITTER_HANDLE = "wquguru";
+  const TWITTER_HANDLE = "ericblock2100";
   const barCls = `sticky top-0 z-50 w-full border-b backdrop-blur`;
   const textCls = "";
   const hoverLink = "";
@@ -67,7 +67,7 @@ export function Header() {
           <div className="flex items-center gap-2">
             {/* GitHub */}
             <a
-              href="https://github.com/wquguru/nof0"
+              href="https://github.com/gyc567/nof0"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Open GitHub repository"
@@ -115,7 +115,7 @@ export function Header() {
             </a>
             {/* Telegram 群 */}
             <a
-              href="https://t.me/nof0_ai"
+              href="https://t.me/monnaire_capital_research"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Join Telegram group"
