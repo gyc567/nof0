@@ -1,0 +1,61 @@
+name: Binance Monitor Trigger
+
+on:
+  schedule:
+    # 每 5 分钟执行一次
+    - cron: '*/5 * * * *'
+
+  workflow_dispatch:
+    # 手动触发选项
+    inputs:
+      symbol:
+        description: '交易对 (如: BTCUSDT)'
+        required: false
+        default: 'BTCUSDT'
+      threshold:
+        description: '告警阈值 (USDT)'
+        required: false
+        default: '2000000'
+
+jobs:
+  trigger-monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: 触发币安监控检查
+        run: |
+          echo "触发时间: $(date)"
+          echo "目标: ${{ secrets.VERCEL_MONITOR_API_URL }}"
+          echo "交易对: ${{ github.event.inputs.symbol || 'BTCUSDT' }}"
+          echo "阈值: ${{ github.event.inputs.threshold || '2000000' }}"
+
+      - name: 调用 Vercel API 触发检查
+        run: |
+          curl -X POST "${{ secrets.VERCEL_MONITOR_API_URL }}/api/monitor/trigger" \
+            -H "Authorization: Bearer ${{ secrets.VERCEL_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "symbol": "${{ github.event.inputs.symbol || 'BTCUSDT' }}",
+              "threshold": ${{ github.event.inputs.threshold || '2000000' }},
+              "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%S)'"
+            }' \
+            --max-time 10 \
+            --retry 3
+
+      - name: 检查响应状态
+        run: |
+          if [ $? -eq 0 ]; then
+            echo "✅ 监控检查已成功触发"
+            echo "检查时间: $(date)"
+          else
+            echo "❌ 触发失败，检查 Vercel API 连接"
+            exit 1
+          fi
+
+      - name: 记录监控日志
+        if: always()
+        run: |
+          echo "工作流执行完成: $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "分支: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "提交: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
